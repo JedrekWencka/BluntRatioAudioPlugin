@@ -1,0 +1,22 @@
+# Build output
+build/
+cmake-build-*/
+out/
+
+# IDE / editor
+.vscode/
+.idea/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+# macOS
+.DS_Store
+
+# CMake
+CMakeUserPresets.json
+compile_commands.json
+
+# Local environment
+.env
+.env.*
+!.env.example
