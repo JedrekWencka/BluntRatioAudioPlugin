@@ -93,7 +93,8 @@ namespace
 constexpr const char* aboutBody =
     "Relax the pocket.\n\n"
     "Delay the whole track by 0 to 250 ms in 0.1 ms steps so it sits later than tracks without the plugin. "
-    "Latency compensation is intentionally off. The delay is the effect.";
+    "Latency compensation is intentionally off. The delay is the effect.\n\n"
+    "Copyright (c) 2026 B19 Jędrzej Wencka.";
 
 juce::Rectangle<int> aboutCardBounds(juce::Rectangle<int> parent)
 {

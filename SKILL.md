@@ -1,4 +1,4 @@
-# Blunt Ration VST — Development Skill
+# BluntRatio VST — Development Skill
 
 ## Goal
 Build a production-quality audio effect plugin using JUCE, CMake, and modern C++.
