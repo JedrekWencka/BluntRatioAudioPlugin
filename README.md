@@ -87,3 +87,7 @@ BluntRationVST/
 ## Next milestone
 
 Replace the proof-of-life gain stage with the first real Blunt Ration DSP block, while keeping a tiny testable signal path.
+
+## JUCE licensing note
+
+JUCE 9 is dual-licensed under AGPLv3 and a commercial JUCE licence. This repository currently treats the Blunt Ration source as proprietary, so before distributing a closed-source build, confirm that you have the appropriate JUCE commercial licence/terms for your use case.

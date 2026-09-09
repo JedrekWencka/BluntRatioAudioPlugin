@@ -21,7 +21,7 @@ juce_add_plugin(BluntRation
     COMPANY_NAME "Blunt Ration"
     BUNDLE_ID "com.bluntration.audio.bluntration"
     PLUGIN_MANUFACTURER_CODE BlRt
-    PLUGIN_CODE Br01
+    PLUGIN_CODE BR01
     FORMATS VST3 AU Standalone
     PRODUCT_NAME "Blunt Ration"
     DESCRIPTION "Blunt Ration audio effect"
