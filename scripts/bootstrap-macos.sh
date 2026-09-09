@@ -16,7 +16,7 @@ brew list cmake >/dev/null 2>&1 || brew install cmake
 brew list ninja >/dev/null 2>&1 || brew install ninja
 
 echo
-echo "Configuring Blunt Ration..."
+echo "Configuring BluntRatio..."
 cmake --preset macos-debug
 
 echo

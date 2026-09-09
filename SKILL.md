@@ -28,7 +28,7 @@ Build a production-quality audio effect plugin using JUCE, CMake, and modern C++
 - Avoid adding dependencies unless they solve a concrete problem.
 
 ## Initial milestone
-The scaffold intentionally implements only a gain stage. Replace/extend it incrementally while keeping the plugin loadable at every step.
+BluntRatio is a 0–250 ms track delay with a single slider in 0.1 ms steps, defaulting to 0 ms. Keep the plugin loadable at every step; do not report the delay as host latency.
 
 ## Definition of done for DSP features
 - Works at 44.1, 48, 88.2, 96 kHz.

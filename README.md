@@ -1,6 +1,6 @@
-# Blunt Ration VST
+# BluntRatio VST
 
-Starter repository for the **Blunt Ration** audio plugin.
+**BluntRatio** delays a whole track by 0–250 ms (0.1 ms steps) so it sits later than tracks without the plugin. Default is 0 ms. The delay is the effect — it is not reported as host latency, so DAW delay compensation will not cancel it.
 
 ## Current state
 
@@ -9,7 +9,7 @@ The plugin builds as:
 - Audio Unit (AU)
 - Standalone app
 
-The first implementation is intentionally simple: a smoothed **Gain** control from -24 dB to +24 dB. This proves the complete plugin pipeline before we add the real DSP.
+There is a single **Delay** slider from 0 to 250 ms in 0.1 ms steps, labeled only **less** / **more**. The editor uses the BluntRatio mockup art (blunt, smoke, branding) with a live slider on top.
 
 ## Requirements — macOS
 
@@ -25,7 +25,7 @@ JUCE is fetched automatically by CMake and pinned to **9.0.2**.
 From Terminal:
 
 ```bash
-cd ~/Desktop/BluntRationVST
+cd ~/Desktop/BluntRatioVST
 ./scripts/bootstrap-macos.sh
 ```
 
@@ -48,7 +48,7 @@ cmake --build --preset macos-release --parallel
 After configuration:
 
 ```bash
-cmake --build build/debug --target BluntRation_VST3 --parallel
+cmake --build build/debug --target BluntRatio_VST3 --parallel
 ```
 
 ## Where macOS VST3 plugins normally live
@@ -70,24 +70,40 @@ User-level AU path:
 ## Source layout
 
 ```text
-BluntRationVST/
+BluntRatioVST/
 ├── CMakeLists.txt
 ├── CMakePresets.json
 ├── README.md
 ├── SKILL.md
+├── Assets/
+│   └── bluntratio-ui.jpg
 ├── Source/
+│   ├── DSP/
+│   │   ├── TimeDelay.h
+│   │   └── TimeDelay.cpp
 │   ├── PluginProcessor.h
 │   ├── PluginProcessor.cpp
 │   ├── PluginEditor.h
 │   └── PluginEditor.cpp
+├── Tests/
+│   └── TimeDelayTests.cpp
 └── scripts/
     └── bootstrap-macos.sh
 ```
 
+## Tests
+
+After configuration:
+
+```bash
+cmake --build build/debug --target TimeDelayTests --parallel
+ctest --test-dir build/debug --output-on-failure
+```
+
 ## Next milestone
 
-Replace the proof-of-life gain stage with the first real Blunt Ration DSP block, while keeping a tiny testable signal path.
+Confirm the slider sits on the mockup track in a DAW, then verify delay at 44.1/48/96 kHz with variable block sizes.
 
 ## JUCE licensing note
 
-JUCE 9 is dual-licensed under AGPLv3 and a commercial JUCE licence. This repository currently treats the Blunt Ration source as proprietary, so before distributing a closed-source build, confirm that you have the appropriate JUCE commercial licence/terms for your use case.
+JUCE 9 is dual-licensed under AGPLv3 and a commercial JUCE licence. This repository currently treats the BluntRatio source as proprietary, so before distributing a closed-source build, confirm that you have the appropriate JUCE commercial licence/terms for your use case.

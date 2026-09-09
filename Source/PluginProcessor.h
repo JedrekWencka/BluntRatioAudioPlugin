@@ -1,12 +1,13 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "DSP/TimeDelay.h"
 
-class BluntRationAudioProcessor final : public juce::AudioProcessor
+class BluntRatioAudioProcessor final : public juce::AudioProcessor
 {
 public:
-    BluntRationAudioProcessor();
-    ~BluntRationAudioProcessor() override = default;
+    BluntRatioAudioProcessor();
+    ~BluntRatioAudioProcessor() override = default;
 
     void prepareToPlay(double sampleRate, int samplesPerBlock) override;
     void releaseResources() override;
@@ -22,7 +23,7 @@ public:
     bool acceptsMidi() const override { return false; }
     bool producesMidi() const override { return false; }
     bool isMidiEffect() const override { return false; }
-    double getTailLengthSeconds() const override { return 0.0; }
+    double getTailLengthSeconds() const override { return TimeDelay::maxDelayMilliseconds * 0.001; }
 
     int getNumPrograms() override { return 1; }
     int getCurrentProgram() override { return 0; }
@@ -36,11 +37,11 @@ public:
     juce::AudioProcessorValueTreeState& getParameters() { return parameters; }
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 
-    static constexpr const char* gainParameterId = "gain";
+    static constexpr const char* delayParameterId = "delay";
 
 private:
     juce::AudioProcessorValueTreeState parameters;
-    juce::dsp::Gain<float> gain;
+    TimeDelay delay;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BluntRationAudioProcessor)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(BluntRatioAudioProcessor)
 };
