@@ -1,82 +1,83 @@
-# BluntRatio VST
+# BluntRatio
 
-**BluntRatio** delays a whole track by 0–250 ms (0.1 ms steps) so it sits later than tracks without the plugin. Default is 0 ms. The delay is the effect — it is not reported as host latency, so DAW delay compensation will not cancel it.
+**BluntRatio** is a timing plugin. It delays the whole track by **0 to 250 ms** so the performance sits later than tracks without the plugin. Tagline: *relax the pocket*.
 
-## Current state
+Current build: **1.2.1** (`1.2.1.37`).
 
-The plugin builds as:
+## What it does
+
+- One automatable parameter: **Delay** (0.0–250.0 ms, 0.1 ms steps).
+- Default is **0 ms** (slider at **Less**).
+- The output is **only** the delayed signal. There is no dry/wet mix, no feedback, and no parallel delay.
+- The delay is **not** reported as plugin latency, so DAW delay compensation will not cancel it. That lag is the effect.
+- Delay time is converted from milliseconds using the host sample rate, so 44.1 / 48 / 88.2 / 96 kHz all keep the same time in ms.
+
+## Formats
+
+macOS builds:
+
 - VST3
 - Audio Unit (AU)
 - Standalone app
 
-There is a single **Delay** slider from 0 to 250 ms in 0.1 ms steps, labeled only **less** / **more**. The editor uses the BluntRatio mockup art (blunt, smoke, branding) with a live slider on top.
+After a successful build, CMake copies plugins to:
 
-## Requirements — macOS
+- VST3: `~/Library/Audio/Plug-Ins/VST3/BluntRatio.vst3`
+- AU: `~/Library/Audio/Plug-Ins/Components`
+
+## Requirements (macOS)
 
 - Xcode Command Line Tools
-- Homebrew
 - CMake >= 3.22
 - Ninja
 
-JUCE is fetched automatically by CMake and pinned to **9.0.2**.
+JUCE **9.0.2** is downloaded automatically by CMake.
 
-## Fastest setup
-
-From Terminal:
-
-```bash
-cd ~/Desktop/BluntRatioVST
-./scripts/bootstrap-macos.sh
-```
-
-## Manual build
+## Build
 
 ```bash
 cmake --preset macos-debug
 cmake --build --preset macos-debug --parallel
 ```
 
-Release build:
+Release:
 
 ```bash
 cmake --preset macos-release
 cmake --build --preset macos-release --parallel
 ```
 
-## Build only the VST3
-
-After configuration:
+VST3 only:
 
 ```bash
 cmake --build build/debug --target BluntRatio_VST3 --parallel
 ```
 
-## Where macOS VST3 plugins normally live
+Or run `./scripts/bootstrap-macos.sh` (needs Homebrew for CMake and Ninja).
 
-User-level VST3 path:
+Reload or rescan plugins in the DAW after each install.
 
-```text
-~/Library/Audio/Plug-Ins/VST3
+## Tests
+
+```bash
+cmake --build build/debug --target TimeDelayTests --parallel
+ctest --test-dir build/debug --output-on-failure
 ```
-
-User-level AU path:
-
-```text
-~/Library/Audio/Plug-Ins/Components
-```
-
-`COPY_PLUGIN_AFTER_BUILD` is enabled in CMake.
 
 ## Source layout
 
 ```text
-BluntRatioVST/
+BluntRatioAudioPlugin/
 ├── CMakeLists.txt
 ├── CMakePresets.json
 ├── README.md
+├── LICENSE.md
 ├── SKILL.md
 ├── Assets/
-│   └── bluntratio-ui.jpg
+│   ├── ui-panel.jpg
+│   ├── slider-track.png
+│   ├── slider-fill.png
+│   └── slider-thumb.png
 ├── Source/
 │   ├── DSP/
 │   │   ├── TimeDelay.h
@@ -91,19 +92,12 @@ BluntRatioVST/
     └── bootstrap-macos.sh
 ```
 
-## Tests
+## UI
 
-After configuration:
+The editor uses the panel artwork plus slider parts (track, fill, ember thumb). **Less** / **More** and the version number are in the art. Click the **i** in the top-right of the panel for the in-plugin about screen.
 
-```bash
-cmake --build build/debug --target TimeDelayTests --parallel
-ctest --test-dir build/debug --output-on-failure
-```
+## Licence
 
-## Next milestone
+Project source is proprietary unless another licence is added later. See `LICENSE.md`.
 
-Confirm the slider sits on the mockup track in a DAW, then verify delay at 44.1/48/96 kHz with variable block sizes.
-
-## JUCE licensing note
-
-JUCE 9 is dual-licensed under AGPLv3 and a commercial JUCE licence. This repository currently treats the BluntRatio source as proprietary, so before distributing a closed-source build, confirm that you have the appropriate JUCE commercial licence/terms for your use case.
+JUCE 9 is dual-licensed (AGPLv3 or a commercial JUCE licence). A commercial JUCE licence may be required for a closed-source or commercial release.
