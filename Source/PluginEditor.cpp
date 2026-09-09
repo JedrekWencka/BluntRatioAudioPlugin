@@ -55,17 +55,18 @@ void DelaySliderLookAndFeel::drawLinearSlider(juce::Graphics& g,
                                               juce::Slider& slider)
 {
     auto bounds = slider.getLocalBounds().toFloat();
-    const auto trackHeight = juce::jmax(16.0f, bounds.getHeight() * 0.22f);
+    const auto thumbRadius = (float) getSliderThumbRadius(slider);
+    const auto trackHeight = juce::jmax(18.0f, thumbRadius * 1.05f);
     const auto trackY = bounds.getY() + bounds.getHeight() * 0.50f;
-    auto track = juce::Rectangle<float>(bounds.getX() + 6.0f,
+    auto track = juce::Rectangle<float>(bounds.getX() + 10.0f,
                                         trackY,
-                                        bounds.getWidth() - 12.0f,
+                                        bounds.getWidth() - 20.0f,
                                         trackHeight);
 
     if (trackImage.isValid())
         g.drawImage(trackImage, track, juce::RectanglePlacement::centred | juce::RectanglePlacement::stretchToFit);
 
-    auto inner = track.reduced(6.0f, track.getHeight() * 0.22f);
+    auto inner = track.reduced(7.0f, track.getHeight() * 0.22f);
     const auto fillRight = juce::jlimit(inner.getX(), inner.getRight(), sliderPos);
 
     if (fillImage.isValid() && fillRight - inner.getX() > 1.5f)
@@ -80,9 +81,23 @@ void DelaySliderLookAndFeel::drawLinearSlider(juce::Graphics& g,
 
     if (thumbImage.isValid())
     {
-        const auto thumbSize = juce::jlimit(26.0f, 34.0f, trackHeight * 1.15f);
-        auto thumbArea = juce::Rectangle<float>(thumbSize, thumbSize).withCentre(thumbCentre);
-        g.drawImage(thumbImage, thumbArea, juce::RectanglePlacement::centred);
+        // Ember sits in the lower part of the 256px asset (smoke occupies the top).
+        constexpr float emberCentreX = 128.0f;
+        constexpr float emberCentreY = 168.0f;
+        constexpr float emberRadius = 86.0f;
+        const auto scale = thumbRadius / emberRadius;
+        const auto transform = juce::AffineTransform::translation(-emberCentreX, -emberCentreY)
+                                   .scaled(scale)
+                                   .translated(thumbCentre.x, thumbCentre.y);
+
+        juce::Graphics::ScopedSaveState clip(g);
+        juce::Path disc;
+        disc.addEllipse(thumbCentre.x - thumbRadius,
+                        thumbCentre.y - thumbRadius,
+                        thumbRadius * 2.0f,
+                        thumbRadius * 2.0f);
+        g.reduceClipRegion(disc);
+        g.drawImageTransformed(thumbImage, transform, false);
     }
 
     drawSmoke(g, thumbCentre);
@@ -94,7 +109,7 @@ constexpr const char* aboutBody =
     "Relax the pocket.\n\n"
     "Delay the whole track by 0 to 250 ms in 0.1 ms steps so it sits later than tracks without the plugin. "
     "Latency compensation is intentionally off. The delay is the effect.\n\n"
-    "Copyright (c) 2026 B19 Jędrzej Wencka.";
+    "Copyright (c) 2026 B19 Audio Production.";
 
 juce::Rectangle<int> aboutCardBounds(juce::Rectangle<int> parent)
 {
@@ -163,7 +178,7 @@ BluntRatioAudioProcessorEditor::BluntRatioAudioProcessorEditor(BluntRatioAudioPr
     delaySlider.setMouseDragSensitivity(2500);
     delaySlider.setDoubleClickReturnValue(true, 0.0);
     delaySlider.setOpaque(false);
-    delaySlider.setPaintingIsUnclipped(false);
+    delaySlider.setPaintingIsUnclipped(true);
     delaySlider.setBufferedToImage(false);
     addAndMakeVisible(delaySlider);
 

@@ -12,7 +12,7 @@ public:
                           float sliderPos, float minSliderPos, float maxSliderPos,
                           juce::Slider::SliderStyle, juce::Slider&) override;
 
-    int getSliderThumbRadius(juce::Slider&) override { return 18; }
+    int getSliderThumbRadius(juce::Slider&) override { return 32; }
 
     void advanceSmoke();
 

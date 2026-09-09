@@ -21,8 +21,8 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(JUCE)
 
 juce_add_plugin(BluntRatio
-    COMPANY_NAME "B19 Jędrzej Wencka"
-    COMPANY_COPYRIGHT "Copyright (c) 2026 B19 Jędrzej Wencka"
+    COMPANY_NAME "B19 Audio Production"
+    COMPANY_COPYRIGHT "Copyright (c) 2026 B19 Audio Production"
     BUNDLE_ID "com.bluntratio.audio.bluntratio"
     PLUGIN_MANUFACTURER_CODE BlRt
     PLUGIN_CODE BR01

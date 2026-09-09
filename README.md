@@ -98,6 +98,6 @@ The editor uses the panel artwork plus slider parts (track, fill, ember thumb). 
 
 ## Licence
 
-Copyright (c) 2026 **B19 Jędrzej Wencka**. Project source is proprietary unless another licence is added later. See `LICENSE.md`.
+Copyright (c) 2026 **B19 Audio Production**. Project source is proprietary unless another licence is added later. See `LICENSE.md`.
 
 JUCE 9 is dual-licensed (AGPLv3 or a commercial JUCE licence). A commercial JUCE licence may be required for a closed-source or commercial release.
